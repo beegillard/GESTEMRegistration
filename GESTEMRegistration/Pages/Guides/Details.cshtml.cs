@@ -18,9 +18,13 @@ namespace GESTEMRegistration.Pages.Guides
         {
             _context = context;
         }
+        public Guide Guide { get; set; } = default!;
 
-      public Guide Guide { get; set; } = default!;
-    public bool ShowData { get; set; }
+        public bool ShowData { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string? EmailSearch { get; set; }
+
 
         public void OnGet()
         {
@@ -28,16 +32,17 @@ namespace GESTEMRegistration.Pages.Guides
         }
 
 
-        public async Task<IActionResult> OnPostAsync(string? email)
+        public async Task<IActionResult> OnPostAsync(int? id)
         {
-            if (email == null || _context.Guide == null)
+            if (id == null || _context.Guide == null)
             {
                 return NotFound();
             }
 
-            var guide = await _context.Guide.FirstOrDefaultAsync(m => m.Email == email);
+            var guide = await _context.Guide.FirstOrDefaultAsync(m => m.ID== id);
             if (guide == null)
             {
+               
                 return NotFound();
             }
             else 

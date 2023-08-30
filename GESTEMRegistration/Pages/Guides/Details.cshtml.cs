@@ -26,31 +26,30 @@ namespace GESTEMRegistration.Pages.Guides
         public string? EmailSearch { get; set; }
 
 
-        public void OnGet()
+        public async Task<IActionResult> OnGetAsync()
         {
             ShowData = false;
-        }
 
-
-        public async Task<IActionResult> OnPostAsync(int? id)
-        {
-            if (id == null || _context.Guide == null)
+            if (!string.IsNullOrEmpty(EmailSearch))
             {
-                return NotFound();
+                var guide = await _context.Guide.FirstOrDefaultAsync(g => g.Email == EmailSearch.ToLower());
+
+                if (guide == null)
+                {
+                    return NotFound();
+                } else
+                {
+                    Guide = guide;
+                    ShowData = true;
+
+                }
+                
+
             }
 
-            var guide = await _context.Guide.FirstOrDefaultAsync(m => m.ID== id);
-            if (guide == null)
-            {
-               
-                return NotFound();
-            }
-            else 
-            {
-                ShowData = true;
-                Guide = guide;
-            }
+            
             return Page();
-        } 
+           
+        }
     }
 }

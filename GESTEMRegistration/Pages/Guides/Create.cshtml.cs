@@ -29,6 +29,7 @@ namespace GESTEMRegistration.Pages.Guides
         
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
+
         public async Task<IActionResult> OnPostAsync()
         {
           if (!ModelState.IsValid || _context.Guide == null || Guide == null)
@@ -41,7 +42,7 @@ namespace GESTEMRegistration.Pages.Guides
             _context.Guide.Add(Guide);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("../GuideConfirmation");
+            return RedirectToPage("./GuideConfirmation");
         }
     }
 }
